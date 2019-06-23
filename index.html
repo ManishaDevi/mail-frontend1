@@ -43,22 +43,17 @@
 
                 // Send the code to the server
                 $.ajax({
-                    type: 'POST',
                     url: 'https://mailbackend199320.herokuapp.com/storeauthcode',
-                    // Always include an `X-Requested-With` header in every AJAX request,
-                    // to protect against CSRF attacks.
+                    type: "POST",
+                    data: {
+                        code: authResult['code']
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    contentType: 'application/json',
-                    success: function (result) {
-                        // Handle or verify the server response.
-                    },
-                    processData: false,
-                    data: {
-                        code: authResult['code']
-                    }
-                });
+                })
             } else {
                 // There was an error.
             }
