@@ -41,19 +41,33 @@
                 // Hide the sign-in button now that the user is authorized, for example:
                 $('#signinButton').attr('style', 'display: none');
 
-                // Send the code to the server
-                $.ajax({
-                    url: 'https://mailbackend199320.herokuapp.com/storeauthcode',
-                    type: "POST",
-                    data: {
-                        code: authResult['code']
-                    },
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                })
+                // // Send the code to the server
+                // $.ajax({
+                //     url: 'https://mailbackend199320.herokuapp.com/storeauthcode',
+                //     type: "POST",
+                //     data: {
+                //         code: authResult['code']
+                //     },
+                //     contentType: "application/json; charset=utf-8",
+                //     dataType: "json",
+                //     headers: {
+                //         'X-Requested-With': 'XMLHttpRequest'
+                //     },
+                // })
+                (async () => {
+                    const rawResponse = await fetch('https://mailbackend199320.herokuapp.com/storeauthcode', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify({ code: authResult['code'] })
+                    });
+                    const content = await rawResponse.json();
+
+                    console.log(content);
+                })();
             } else {
                 // There was an error.
             }
